@@ -5,6 +5,15 @@ Automation for the **Elyon Chain incentivised testnet** (Season 1) quest platfor
 Connects a self-custody EVM wallet to `airdrop.elyon.network`, completes the on-chain quests,
 and keeps the daily streak alive — no browser extension, no manual clicking.
 
+## Verified run
+
+Live wallet state (addresses masked) and on-chain verification of the transactions the bot
+actually executed — these cards are rendered from the bot's own output, not mockups:
+
+![status](docs/screenshots/status.png)
+
+![proof](docs/screenshots/proof.png)
+
 ## What it does
 
 - **Sign-in** with an EIP-191 signature (SIWE-style message), session cookie cached per wallet
