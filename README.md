@@ -3,7 +3,8 @@
 Automation for the **Elyon Chain incentivised testnet** (Season 1) quest platform.
 
 Connects a self-custody EVM wallet to `airdrop.elyon.network`, completes the on-chain quests,
-and keeps the daily streak alive — no browser extension, no manual clicking.
+runs the live partner campaigns, and keeps the daily streak alive — no browser extension, no
+manual clicking.
 
 ## Verified run
 
@@ -20,6 +21,11 @@ actually executed — these cards are rendered from the bot's own output, not mo
 - **Faucet** claim once per campaign day
 - **Transfers** 1+ ELN per day to prove the wallet can move funds
 - **Badge mint** and **validator delegation** (10 ELN) as one-time quests
+- **Partner campaigns** — auto-detects which quests are live and works them:
+  referral sprint (verified every run), Instagram follow, daily secret code, X engagement
+  (like/repost/comment/quote)
+- **Anti-bot** — solves the platform's proof-of-work, SVG captcha grid and slider puzzles
+  locally, no paid solving service
 - Reads the quest ledger, points and rank back from the platform
 - Multi-wallet config with per-wallet state
 
@@ -37,22 +43,31 @@ no web3.py, no Chrome, no paid captcha service.
   maxed, and wallets are staggered.
 - **Idempotent**: already-claimed / already-minted / already-delegated states are detected
   before spending gas.
+- **No fake submissions**: a campaign task that needs a real artefact (an IG handle, a today's
+  secret code, your X comment link) is skipped with the reason printed, not submitted empty.
 
 ## Interface
 
 Interactive Indonesian menu (`JALANKAN.bat`) plus a CLI:
 
 ```
-python src/run.py --status     # points, tasks, referral
-python src/run.py --daily      # claim + send
-python src/run.py --onboard    # mint + delegate
-python src/run.py --dry-run    # plan only, no transactions
+python src/run.py --status       # points, tasks, referral, campaigns
+python src/run.py --daily        # claim + send + live campaigns
+python src/run.py --campaigns    # campaign quests only
+python src/run.py --onboard      # mint + delegate
+python src/run.py --dry-run      # plan only, no transactions
+
+# campaign payloads (leave a flag out and that task is skipped, not faked)
+python src/run.py --secret-code CODE         # daily secret code
+python src/run.py --instagram handle         # instagram_follow task
+python src/run.py --engage-url https://...   # your X comment link
+python src/run.py --quote-url https://...    # your X quote link
 ```
 
 ## Status
 
-Built and verified live on the Elyon testnet — daily loop confirmed crediting points from
-on-chain actions. Maintenance repo: private.
+Built and verified live on the Elyon testnet — daily loop and campaign quests confirmed
+crediting points from real, server-accepted submissions. Maintenance repo: private.
 
 ---
 
