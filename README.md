@@ -24,6 +24,11 @@ actually executed — these cards are rendered from the bot's own output, not mo
 - **Partner campaigns** — auto-detects which quests are live and works them:
   referral sprint (verified every run), Instagram follow, daily secret code, X engagement
   (like/repost/comment/quote)
+- **Daily secret code, resolved before you ask** — the hunt answer is posted in the project
+  channel once it is cracked, so the bot reads that channel (`t.me/s/...`), accepts only
+  messages posted today, caches the code per campaign and sends it. Yesterday's answer can
+  never be reused on a new round, and if nothing is posted the task is skipped with a reason
+  instead of guessing
 - **Anti-bot** — solves the platform's proof-of-work, SVG captcha grid and slider puzzles
   locally, no paid solving service
 - Reads the quest ledger, points and rank back from the platform
@@ -45,6 +50,7 @@ no web3.py, no Chrome, no paid captcha service.
   before spending gas.
 - **No fake submissions**: a campaign task that needs a real artefact (an IG handle, a today's
   secret code, your X comment link) is skipped with the reason printed, not submitted empty.
+  The code resolver follows the same rule — no code posted today means no submission.
 
 ## Interface
 
@@ -58,7 +64,8 @@ python src/run.py --onboard      # mint + delegate
 python src/run.py --dry-run      # plan only, no transactions
 
 # campaign payloads (leave a flag out and that task is skipped, not faked)
-python src/run.py --secret-code CODE         # daily secret code
+python src/run.py --secret-code CODE         # override the daily secret code
+python src/run.py --no-code-scrape           # trust only CLI/env/cache, never the channel
 python src/run.py --instagram handle         # instagram_follow task
 python src/run.py --engage-url https://...   # your X comment link
 python src/run.py --quote-url https://...    # your X quote link
